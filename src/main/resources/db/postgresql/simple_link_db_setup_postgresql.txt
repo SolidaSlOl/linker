@@ -1,0 +1,12 @@
+1) Download and install the PostgreSQL database,
+   which can be found here: https://www.postgresql.org/download/
+
+2) Dependency for postgresql-driver included in pom.xml file.
+
+3) Open psql and create the PetClinic database:
+ 
+	CREATE DATABASE simple_link
+        WITH OWNER = postgres
+        ENCODING = 'UTF8'
+        TABLESPACE = pg_default
+        CONNECTION LIMIT = -1;

@@ -3,6 +3,7 @@
 <%@ taglib prefix="simpleLink" tagdir="/WEB-INF/tags" %>
 
 <%@ attribute name="pageName" required="true" %>
+<%@ attribute name="title" required="true" %>
 
 <!DOCTYPE html>
 <html>

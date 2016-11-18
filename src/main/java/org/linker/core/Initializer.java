@@ -1,6 +1,6 @@
-package org.simpleLInk.core;
+package org.linker.core;
 
-import org.simpleLInk.config.Config;
+import org.linker.config.Config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer{
