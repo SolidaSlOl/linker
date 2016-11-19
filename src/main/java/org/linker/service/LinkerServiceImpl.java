@@ -12,19 +12,14 @@ import java.util.List;
 
 @Transactional
 public class LinkerServiceImpl implements LinkerService {
+    @Autowired
     LinkRepository linkRepository;
-    UserRepository userRepository;
-    TagRepository tagRepository;
 
     @Autowired
-    public LinkerServiceImpl(
-            LinkRepository linkRepository,
-            UserRepository userRepository,
-            TagRepository tagRepository) {
-        this.linkRepository = linkRepository;
-        this.userRepository = userRepository;
-        this.tagRepository = tagRepository;
-    }
+    UserRepository userRepository;
+
+    @Autowired
+    TagRepository tagRepository;
 
     @Override
     @Transactional(readOnly = true)
