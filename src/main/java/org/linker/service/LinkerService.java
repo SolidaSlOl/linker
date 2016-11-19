@@ -5,7 +5,7 @@ import org.linker.model.domain.User;
 
 import java.util.List;
 
-public interface SimpleLinkService {
+public interface LinkerService {
     public User findUser(Integer id);
     public User saveUser(Integer id);
     public List<User> findAllUsers();

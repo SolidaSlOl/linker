@@ -3,5 +3,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="navbar navbar-inverse bg-primary">
-  <a class="navbar-brand" href="/">Главная</a>
+  <a class="navbar-brand" href="/">Home</a>
 </div>

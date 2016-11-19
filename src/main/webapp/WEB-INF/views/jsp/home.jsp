@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="simpleLink" tagdir="/WEB-INF/tags" %>
 
-<simpleLink:layout pageName="home" title="Главная страница">
+<simpleLink:layout pageName="home" title="Home">
 
-	<h1>Главная страница</h1>
+	<h1>Home</h1>
 
 </simpleLink:layout>

@@ -6,16 +6,18 @@ import org.linker.repository.LinkRepository;
 import org.linker.repository.TagRepository;
 import org.linker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class SimpleLinkServiceImpl implements SimpleLinkService {
+@Transactional
+public class LinkerServiceImpl implements LinkerService {
     LinkRepository linkRepository;
     UserRepository userRepository;
     TagRepository tagRepository;
 
     @Autowired
-    public SimpleLinkServiceImpl(
+    public LinkerServiceImpl(
             LinkRepository linkRepository,
             UserRepository userRepository,
             TagRepository tagRepository) {
@@ -25,31 +27,38 @@ public class SimpleLinkServiceImpl implements SimpleLinkService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUser(Integer id) { //todo
         return null;
     }
 
     @Override
+    @Transactional
     public User saveUser(Integer id) { //todo
         return null;
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAllUsers() { //todo
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Link findLink(Integer id) { //todo
         return null;
     }
 
     @Override
+    @Transactional
     public Link saveLink(Integer id) { //todo
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Link> findLinksByPlayer(Integer id) { //todo
         return null;
     }

@@ -12,18 +12,17 @@ CREATE TABLE IF NOT EXISTS users (
   PRIMARY KEY (id)
 );
 CREATE INDEX IF NOT EXISTS idx_users_name ON users (name);
+CREATE INDEX IF NOT EXISTS idx_users_password ON users (password);
 
 CREATE TABLE IF NOT EXISTS links (
-  id SERIAL,
-  actual VARCHAR(1000),
-  generated VARCHAR(30),
-  clicks INT,
-  description VARCHAR(500),
-  user_id INT,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+id SERIAL,
+actual VARCHAR(1000),
+clicks INT,
+description VARCHAR(500),
+user_id INT,
+PRIMARY KEY (id),
+FOREIGN KEY (user_id) REFERENCES users(id)
 );
-CREATE INDEX IF NOT EXISTS idx_users_password ON users (password);
 
 CREATE TABLE IF NOT EXISTS link_tag (
   link_id INT NOT NULL,
