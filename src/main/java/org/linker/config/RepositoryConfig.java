@@ -1,15 +1,11 @@
 package org.linker.config;
 
-import org.linker.service.LinkerService;
-import org.linker.service.LinkerServiceImpl;
+import org.linker.repository.springdatajpa.SpringDataLinkRepository;
 import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.context.annotation.Bean;;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -19,9 +15,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("org.linker.service")
+@ComponentScan("org.linker")
 @EnableJpaRepositories("org.linker.repository")
 public class RepositoryConfig {
+    @Bean
     public DataSource dataSource() {
         PGPoolingDataSource dataSource = new PGPoolingDataSource();
         dataSource.setServerName("localhost");
@@ -52,10 +49,5 @@ public class RepositoryConfig {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory(dataSource()));
         return txManager;
-    }
-
-    @Bean
-    public LinkerService getService() {
-        return new LinkerServiceImpl();
     }
 }

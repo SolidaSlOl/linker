@@ -11,6 +11,9 @@ public class User extends NamedEntity {
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String passwordConfirm;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Link> links;
 
@@ -36,6 +39,14 @@ public class User extends NamedEntity {
         this.password = password;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
     public List<Link> getLinksInternal() {
         if (this.links == null) {
             this.links = new ArrayList<>();
@@ -50,6 +61,14 @@ public class User extends NamedEntity {
     public void addLink(Link link) {
         getLinksInternal().add(link);
         link.setUser(this);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Tag> getTagsInternal() {

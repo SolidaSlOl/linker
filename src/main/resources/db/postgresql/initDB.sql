@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS tags (
   id SERIAL,
-  name VARCHAR(30),
+  name VARCHAR(50),
   PRIMARY KEY (id)
 );
 CREATE INDEX IF NOT EXISTS idx_tags_name ON tags (name);
@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE INDEX IF NOT EXISTS idx_users_name ON users (name);
 CREATE INDEX IF NOT EXISTS idx_users_password ON users (password);
+
+CREATE TABLE IF NOT EXISTS roles (
+  id SERIAL,
+  name VARCHAR(50),
+);
 
 CREATE TABLE IF NOT EXISTS links (
 id SERIAL,
