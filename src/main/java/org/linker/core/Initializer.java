@@ -1,21 +1,18 @@
 package org.linker.core;
 
-import org.linker.config.MvcConfig;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+@SpringBootApplication
+public class Initializer extends SpringBootServletInitializer {
     @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { MvcConfig.class};
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Initializer.class);
     }
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[] { "/" };
-    }
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return null;
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Initializer.class, args);
     }
 }

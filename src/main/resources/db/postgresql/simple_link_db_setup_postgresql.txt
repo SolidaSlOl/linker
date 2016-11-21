@@ -5,7 +5,7 @@
 
 3) Open psql and create the PetClinic database:
  
-	CREATE DATABASE simple_link
+	CREATE DATABASE linker
         WITH OWNER = postgres
         ENCODING = 'UTF8'
         TABLESPACE = pg_default

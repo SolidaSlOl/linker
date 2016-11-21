@@ -1,11 +1,8 @@
 package org.linker.model;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linker.service.ConverterService;
 import org.linker.service.ConverterServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

@@ -17,12 +17,13 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private SpringDataUserRepository userRepository;
+    @Autowired
+    private SpringDataUserRepository springDataUserRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = springDataUserRepository.findByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles()){
@@ -30,6 +31,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(), user.getPassword(), grantedAuthorities);
+                user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

@@ -1,4 +1,4 @@
-package org.linker.controller;
+package org.linker.web;
 
 import org.linker.model.domain.User;
 import org.linker.service.LinkerService;
@@ -40,7 +40,7 @@ public class UserController {
 
         linkerService.saveUser(userForm);
 
-        securityService.autologin(userForm.getName(), userForm.getPasswordConfirm());
+        securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return "redirect:/welcome";
     }

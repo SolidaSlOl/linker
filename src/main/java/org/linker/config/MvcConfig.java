@@ -1,3 +1,4 @@
+/*
 package org.linker.config;
 
 import org.linker.validator.UserValidator;
@@ -13,11 +14,11 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"org.linker"})
 public class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources*/
+/**").addResourceLocations("/resources/");
     }
 
     @Bean
@@ -33,4 +34,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public UserValidator userValidator() {
         return new UserValidator();
     }
-}
+}*/

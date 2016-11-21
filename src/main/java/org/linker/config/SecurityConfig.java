@@ -12,12 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@ComponentScan("org.linker")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
-
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

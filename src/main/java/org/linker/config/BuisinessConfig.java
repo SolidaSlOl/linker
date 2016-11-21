@@ -1,3 +1,4 @@
+/*
 package org.linker.config;
 
 import org.linker.service.*;
@@ -8,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.Validator;
 
-@ComponentScan("org.linker")
 @Configuration
 public class BuisinessConfig {
     @Bean
@@ -26,3 +26,4 @@ public class BuisinessConfig {
         return new UserDetailsServiceImpl();
     }
 }
+*/

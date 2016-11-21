@@ -3,37 +3,51 @@ package org.linker.service;
 import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
 import org.linker.repository.springdatajpa.SpringDataLinkRepository;
+import org.linker.repository.springdatajpa.SpringDataRoleRepository;
 import org.linker.repository.springdatajpa.SpringDataTagRepository;
 import org.linker.repository.springdatajpa.SpringDataUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Transactional
 @Service
 public class LinkerServiceImpl implements LinkerService {
-    SpringDataLinkRepository linkRepository;
-    SpringDataUserRepository userRepository;
-    SpringDataTagRepository tagRepository;
+    @Autowired
+    SpringDataLinkRepository springDataLinkRepository;
+
+    @Autowired
+    SpringDataUserRepository springDataUserRepository;
+
+    @Autowired
+    SpringDataTagRepository springDataTagRepository;
+
+    @Autowired
+    SpringDataRoleRepository springDataRoleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @Transactional(readOnly = true)
     public User findUser(Integer id) {
-        return userRepository.findOne(id);
+        return springDataUserRepository.findOne(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        return springDataUserRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Link findLink(Integer id) {
-        return linkRepository.findOne(id);
+        return springDataLinkRepository.findOne(id);
     }
 
     @Override
@@ -44,17 +58,18 @@ public class LinkerServiceImpl implements LinkerService {
 
     @Override
     public void saveUser(User user) {
-        userRepository.save(user);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(springDataRoleRepository.findAll()));
+        springDataUserRepository.save(user);
     }
 
     @Override
     public void saveLink(Link link) {
-        linkRepository.save(link);
+        springDataLinkRepository.save(link);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User findByName(String name) {
-        return userRepository.findByUsername(name);
+    public User findByUsername(String name) {
+        return springDataUserRepository.findByUsername(name);
     }
 }

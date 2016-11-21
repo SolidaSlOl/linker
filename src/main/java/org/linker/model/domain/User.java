@@ -7,7 +7,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends NamedEntity {
+public class User extends BaseEntity {
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "password")
     private String password;
 
@@ -84,5 +87,13 @@ public class User extends NamedEntity {
 
     public void addTag(Tag tag) {
         getTagsInternal().add(tag);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

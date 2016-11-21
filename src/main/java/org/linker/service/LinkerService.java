@@ -18,5 +18,5 @@ public interface LinkerService {
 
     public List<Link> findLinksByPlayer(Integer id);
 
-    public User findByName(String name);
+    public User findByUsername(String name);
 }

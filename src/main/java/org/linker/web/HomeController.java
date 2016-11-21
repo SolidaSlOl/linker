@@ -1,14 +1,14 @@
-package org.linker.controller;
+package org.linker.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView getHome() {
-        return new ModelAndView("home");
+    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    public String welcome(Model model) {
+        return "home";
     }
 }
