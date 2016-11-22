@@ -1,6 +1,11 @@
 package org.linker.service;
 
+import org.linker.model.domain.Link;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Shorten link is hash of Link's Id. So it is not stored directly in database and should provide
@@ -16,12 +21,12 @@ public class ConverterServiceImpl implements ConverterService {
      * 123456789 <=> pgK8p
      */
     private static final String ALPHABET = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
-    private static final int BASE = ALPHABET.length();
+    private static final Integer BASE = ALPHABET.length();
 
     /**
      * takes an ID and turns it into a short string
      */
-    public String encode(int num) {
+    public String encode(Integer num) {
         StringBuilder str = new StringBuilder();
         while (num > 0) {
             str.insert(0, ALPHABET.charAt(num % BASE));
@@ -34,10 +39,18 @@ public class ConverterServiceImpl implements ConverterService {
      * takes a short string and turns it into an ID
      */
     public int decode(String str) {
-        int num = 0;
+        Integer num = 0;
         for (int i = 0; i < str.length(); i++) {
             num = num * BASE + ALPHABET.indexOf(str.charAt(i));
         }
         return num;
+    }
+
+    public Map<Link, String> encodeList(List<Link> links) {
+        Map<Link, String> map = new HashMap<>(links.size()/2*3+1);
+        for (Link link : links) {
+            map.put(link, encode(link.getId()));
+        }
+        return map;
     }
 }

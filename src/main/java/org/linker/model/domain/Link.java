@@ -1,6 +1,8 @@
 package org.linker.model.domain;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,11 @@ public class Link extends BaseEntity {
     @Column(name = "clicks")
     private Integer clicks;
 
+    @Size(min = 10, max = 150)
     @Column(name = "description")
     private String description;
 
+    @Valid
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "link_tag",

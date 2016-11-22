@@ -1,8 +1,6 @@
-package org.linker.model;
+package org.linker.service;
 
 import org.junit.Test;
-import org.linker.service.ConverterService;
-import org.linker.service.ConverterServiceImpl;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

@@ -18,36 +18,41 @@ import java.util.List;
 @Service
 public class LinkerServiceImpl implements LinkerService {
     @Autowired
-    SpringDataLinkRepository springDataLinkRepository;
+    SpringDataLinkRepository linkRepository;
 
     @Autowired
-    SpringDataUserRepository springDataUserRepository;
+    SpringDataUserRepository userRepository;
 
     @Autowired
-    SpringDataTagRepository springDataTagRepository;
+    SpringDataTagRepository tagRepository;
 
     @Autowired
-    SpringDataRoleRepository springDataRoleRepository;
+    SpringDataRoleRepository roleRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
     public User findUser(Integer id) {
-        return springDataUserRepository.findOne(id);
+        return userRepository.findOne(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> findAllUsers() {
-        return springDataUserRepository.findAll();
+    public List<User> findUsersByTagName(String tagName) {
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Link findLink(Integer id) {
-        return springDataLinkRepository.findOne(id);
+        return linkRepository.findOne(id);
+    }
+
+    @Override
+    public List<Link> findLastTenLinks() {
+        return linkRepository.findFirst10ByOrderByIdDesc();
     }
 
     @Override
@@ -58,18 +63,18 @@ public class LinkerServiceImpl implements LinkerService {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(springDataRoleRepository.findAll()));
-        springDataUserRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        userRepository.save(user);
     }
 
     @Override
     public void saveLink(Link link) {
-        springDataLinkRepository.save(link);
+        linkRepository.save(link);
     }
 
     @Override
     public User findByUsername(String name) {
-        return springDataUserRepository.findByUsername(name);
+        return userRepository.findByUsername(name);
     }
 }

@@ -3,7 +3,7 @@
 
 2) Dependency for postgresql-driver included in pom.xml file.
 
-3) Open psql and create the PetClinic database:
+3) Open psql and create the database:
  
 	CREATE DATABASE linker
         WITH OWNER = postgres

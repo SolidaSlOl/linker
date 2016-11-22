@@ -6,17 +6,19 @@ import org.linker.model.domain.User;
 import java.util.List;
 
 public interface LinkerService {
-    public User findUser(Integer id);
+    User findUser(Integer id);
 
-    public void saveUser(User user);
+    void saveUser(User user);
 
-    public List<User> findAllUsers();
+    List<User> findUsersByTagName(String tagName);
 
-    public Link findLink(Integer id);
+    Link findLink(Integer id);
 
-    public void saveLink(Link link);
+    List<Link> findLastTenLinks();
 
-    public List<Link> findLinksByPlayer(Integer id);
+    void saveLink(Link link);
 
-    public User findByUsername(String name);
+    List<Link> findLinksByPlayer(Integer id);
+
+    User findByUsername(String name);
 }
