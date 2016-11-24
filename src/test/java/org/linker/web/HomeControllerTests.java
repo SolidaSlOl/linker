@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=Initializer.class)
 @WebAppConfiguration
-public class LinkControllerTests {
+public class HomeControllerTests {
 
     private MockMvc mockMvc;
 

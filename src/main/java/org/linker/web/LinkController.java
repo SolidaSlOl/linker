@@ -5,8 +5,6 @@ import org.linker.service.ConverterService;
 import org.linker.service.LinkerService;
 import org.linker.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,23 +22,26 @@ public class LinkController {
     @Autowired
     ConverterService converterService;
 
-    @GetMapping(value = "/{shortLink}")
-    public String redirectToActualLink(@PathVariable("shortLink") String shortLink){
-        Integer linkId = this.converterService.decode(shortLink);
-        return "redirect:" + this.linkerService.findLink(linkId).getActual();
+    @GetMapping(value = "/{shorten}")
+    public String redirectToActualLink(@PathVariable("shorten") String shortLink){
+        Integer linkId = converterService.decode(shortLink);
+        Link link = linkerService.findLink(linkId);
+        link.addClick();
+        linkerService.updateLink(link);
+        return "redirect:" + link.getOriginal();
     }
 
     @GetMapping(value = "/links/{id}")
     public ModelAndView findLink(@PathVariable("id") Integer id){
         ModelAndView mav = new ModelAndView("links/linkDetails");
-        mav.addObject(linkerService.findLink(id));
+        mav.addObject("link", linkerService.findLink(id));
         return mav;
     }
 
-    @Secured("USER_ROLE")
     @GetMapping(value = "/links/create")
     public String initRegistrationForm(Model model) {
-        model.addAttribute("link", new Link());
+        Link link = new Link();
+        model.addAttribute("link", link);
         return "links/createLinkForm";
     }
 

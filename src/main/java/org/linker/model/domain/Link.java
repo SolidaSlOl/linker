@@ -1,25 +1,32 @@
 package org.linker.model.domain;
 
+import org.linker.service.ConverterServiceImpl;
+
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+//@NamedNativeQuery(name = "Link.findByUser",
+//        query="SELECT * FROM links  WHERE t.title = 'title'",
+//        resultClass = Todo.class
+//)
 @Table(name = "links")
 public class Link extends BaseEntity {
-    @Column(name = "actual")
-    private String actual;
+    @Column(name = "original")
+    private String original;
+
+    @Transient
+    private String shorten;
 
     @Column(name = "clicks")
-    private Integer clicks;
+    private Integer clicks = 0;
 
     @Size(min = 10, max = 150)
     @Column(name = "description")
     private String description;
 
-    @Valid
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "link_tag",
@@ -27,24 +34,32 @@ public class Link extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    public String getActual() {
-        return actual;
+    public String getOriginal() {
+        return original;
     }
 
-    public void setActual(String actual) {
-        this.actual = actual;
+    public void setOriginal(String original) {
+        this.original = original;
     }
 
     public Integer getClicks() {
         return clicks;
     }
 
+    public String getShorten() {
+        return new ConverterServiceImpl().encode(this.getId());
+    }
+
     public void setClicks(Integer clicks) {
         this.clicks = clicks;
+    }
+
+    public void addClick() {
+        this.clicks++;
     }
 
     public String getDescription() {

@@ -7,6 +7,7 @@ import org.linker.repository.springdatajpa.SpringDataRoleRepository;
 import org.linker.repository.springdatajpa.SpringDataTagRepository;
 import org.linker.repository.springdatajpa.SpringDataUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,29 +20,19 @@ import java.util.List;
 public class LinkerServiceImpl implements LinkerService {
     @Autowired
     SpringDataLinkRepository linkRepository;
-
     @Autowired
     SpringDataUserRepository userRepository;
-
     @Autowired
     SpringDataTagRepository tagRepository;
-
     @Autowired
     SpringDataRoleRepository roleRepository;
-
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
-    public User findUser(Integer id) {
-        return userRepository.findOne(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> findUsersByTagName(String tagName) {
-        return userRepository.findAll();
+    public List<Link> findLinksByUser() {
+        return linkRepository.findByUser(getCurrentUser());
     }
 
     @Override
@@ -51,17 +42,13 @@ public class LinkerServiceImpl implements LinkerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Link> findLastTenLinks() {
         return linkRepository.findFirst10ByOrderByIdDesc();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Link> findLinksByPlayer(Integer id) { //todo
-        return null;
-    }
-
-    @Override
+    @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(roleRepository.findAll()));
@@ -69,12 +56,25 @@ public class LinkerServiceImpl implements LinkerService {
     }
 
     @Override
-    public void saveLink(Link link) {
+    @Transactional
+    public void updateLink(Link link) {
         linkRepository.save(link);
     }
 
     @Override
+    @Transactional
+    public void saveLink(Link link) {
+        link.setUser(getCurrentUser());
+        linkRepository.save(link);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public User findByUsername(String name) {
         return userRepository.findByUsername(name);
+    }
+
+    private User getCurrentUser() {
+        return userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

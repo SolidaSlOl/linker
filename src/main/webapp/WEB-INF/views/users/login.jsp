@@ -5,7 +5,7 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<linker:layout title="Home">
+<linker:layout-login title="Home" css="/resources/css/common.css">
   <form method="POST" action="${contextPath}/login" class="form-signin">
     <h2 class="form-heading">Log in</h2>
 
@@ -21,5 +21,5 @@
       <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
     </div>
   </form>
-</linker:layout>
+</linker:layout-login>
 

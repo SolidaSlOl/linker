@@ -45,12 +45,4 @@ public class ConverterServiceImpl implements ConverterService {
         }
         return num;
     }
-
-    public Map<Link, String> encodeList(List<Link> links) {
-        Map<Link, String> map = new HashMap<>(links.size()/2*3+1);
-        for (Link link : links) {
-            map.put(link, encode(link.getId()));
-        }
-        return map;
-    }
 }

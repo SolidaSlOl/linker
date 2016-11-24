@@ -17,7 +17,7 @@ public class User extends BaseEntity {
     @Transient
     private String passwordConfirm;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Link> links;
 
     @ManyToMany
@@ -26,13 +26,6 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
-    @ManyToMany
-    @JoinTable(
-            name = "link_tag",
-            joinColumns = @JoinColumn(name="link_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-    private List<Tag> tags;
 
     public String getPassword() {
         return password;
@@ -72,21 +65,6 @@ public class User extends BaseEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public List<Tag> getTagsInternal() {
-        if(this.tags == null) {
-            this.tags = new ArrayList<>();
-        }
-        return this.tags;
-    }
-
-    public List<Tag> getTags() {
-        return getTagsInternal();
-    }
-
-    public void addTag(Tag tag) {
-        getTagsInternal().add(tag);
     }
 
     public String getUsername() {

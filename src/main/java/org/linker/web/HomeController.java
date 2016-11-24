@@ -20,7 +20,7 @@ public class HomeController {
     @GetMapping
     public ModelAndView welcome(Model model) {
         ModelAndView mav = new ModelAndView("home");
-        mav.addObject(converterService.encodeList(linkerService.findLastTenLinks()));
+        mav.addObject("links", linkerService.findLastTenLinks());
         return mav;
     }
 }

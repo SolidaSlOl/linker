@@ -1,5 +1,7 @@
 package org.linker.service;
 
+import org.linker.model.domain.User;
+import org.linker.repository.springdatajpa.SpringDataUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,15 +14,24 @@ import org.springframework.stereotype.Service;
 public class SecurityServiceImpl implements SecurityService{
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private SpringDataUserRepository userRepository;
 
     @Override
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
             return ((UserDetails)userDetails).getUsername();
+        }
+        return null;
+    }
+
+    public User findLoggedInUser() {
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (userDetails instanceof UserDetails) {
+            return userRepository.findByUsername(((UserDetails)userDetails).getUsername());
         }
         return null;
     }

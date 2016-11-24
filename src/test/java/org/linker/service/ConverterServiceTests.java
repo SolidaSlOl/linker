@@ -9,15 +9,23 @@ public class ConverterServiceTests {
     ConverterService converter = new ConverterServiceImpl();
 
     @Test
-    public void testDecode_whenIdGreaterThanZero() {
-        assertThat(converter.encode(2), any(String.class));
-        assertThat(converter.encode(456), any(String.class));
-        assertThat(converter.encode(159841), any(String.class));
-        assertThat(converter.encode(875683234), any(String.class));
+    public void testEncode_whenIdGreaterThanZero() {
+        assertEquals(converter.encode(2), "4");
+        assertEquals(converter.encode(456), "bZ");
+        assertEquals(converter.encode(159841), "3dv9");
+        assertEquals(converter.encode(875683234), "4ztrNx");
     }
 
     @Test
-    public void testEncode_whenCorrectStringFormat() {
+    public void testDecode_whenFormatIsCorrect() {
+        assertEquals(converter.decode("4"), 2);
+        assertEquals(converter.decode("bZ"), 456);
+        assertEquals(converter.decode("3dv9"), 159841);
+        assertEquals(converter.decode("4ztrNx"), 875683234);
+    }
+
+    @Test
+    public void testDecode_whenCorrectStringFormat() {
         assertFalse(converter.decode("pgK8p") < 0);
         assertFalse(converter.decode("3jd_") < 0);
         assertFalse(converter.decode("DH8-d") < 0);

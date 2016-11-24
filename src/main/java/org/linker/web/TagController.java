@@ -11,13 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("tags/")
 public class TagController {
-    @Autowired
-    LinkerService linkerService;
-
     @GetMapping(value = "{name}")
-    public ModelAndView redirectToActualLink(@PathVariable("name") String name){
-        ModelAndView mav = new ModelAndView("users/userList");
-        mav.addObject(linkerService.findUsersByTagName(name));
+    public ModelAndView redirectToActualLink(@PathVariable("name") String name){ //todo
+        ModelAndView mav = new ModelAndView("links/linkList");
+//        mav.addObject(linkerService.findLi(name));
         return mav;
     }
+
+    @Autowired
+    LinkerService linkerService;
 }
