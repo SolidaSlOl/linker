@@ -70,7 +70,7 @@ public class ConverterServiceImpl implements ConverterService {
         for (Tag tag : tags) {
             sb.append(tag.getName()).append(" ");
         }
-        sb.delete(sb.length() - 2, sb.length());
+        sb.delete(sb.length() - 1, sb.length());
         return sb.toString();
     }
 }

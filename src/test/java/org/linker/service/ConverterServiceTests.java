@@ -14,7 +14,7 @@ public class ConverterServiceTests {
     private static String TEST_TAG_NAME_1 = "best";
     private static String TEST_TAG_NAME_2 = "food";
     private static String TEST_TAG_NAME_3 = "tasty";
-    private static String TEST_TAG_STRING = "best, " + "food, " + "tasty";
+    private static String TEST_TAG_STRING = "best " + "food " + "tasty";
 
     private ConverterService converter = new ConverterServiceImpl();
     private List<Tag> testTags;
