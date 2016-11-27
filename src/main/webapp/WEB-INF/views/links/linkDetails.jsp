@@ -14,12 +14,12 @@
     <c:out value="${link.original}"/>
   </a></p>
 
-  <spring:url value="http://localhost:8080/{shorten}" var="shorten">
+  <spring:url value="/{shorten}" var="shorten">
     <spring:param name="shorten" value="${link.shorten}"/>
   </spring:url>
 
   <p><b>Shorten link:</b> <a href="${fn:escapeXml(shorten)} ">
-    <c:out value="localhost:8080/${link.shorten}"/>
+    <c:out value="/${link.shorten}"/>
   </a></p>
 
   <p><b>Description: </b> ${link.description}</p>
@@ -27,7 +27,7 @@
   <p><b>Tags: </b>
     <c:forEach items="${link.tags}" var="tag">
 
-        <spring:url value="http://localhost:8080/tags/{tagName}" var="tagName">
+        <spring:url value="/tags/{tagName}" var="tagName">
           <spring:param name="tagName" value="${tag.name}"/>
         </spring:url>
 

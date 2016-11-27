@@ -32,16 +32,16 @@
           </a>
         </td>
         <td>
-          <spring:url value="http://localhost:8080/{shorten}" var="shorten">
+          <spring:url value="/{shorten}" var="shorten">
             <spring:param name="shorten" value="${link.shorten}"/>
           </spring:url>
 
           <a href="${fn:escapeXml(shorten)} ">
-            <c:out value="localhost:8080/${link.shorten}"/>
+            <c:out value="/${link.shorten}"/>
           </a>
         </td>
         <td>
-          <spring:url value="http://localhost:8080/links/{linkId}" var="linkId">
+          <spring:url value="/links/{linkId}" var="linkId">
             <spring:param name="linkId" value="${link.id}"/>
           </spring:url>
 
