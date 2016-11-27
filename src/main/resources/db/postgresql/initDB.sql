@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS user_role (
 );
 
 CREATE TABLE IF NOT EXISTS links (
-id SERIAL,
-original VARCHAR(1000),
-clicks INT,
-description VARCHAR(500),
-user_id INT,
-PRIMARY KEY (id),
-FOREIGN KEY (user_id) REFERENCES users(id)
+  id SERIAL,
+  original VARCHAR(1000),
+  clicks INT,
+  description VARCHAR(500),
+  user_id INT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS link_tag (
@@ -46,12 +46,3 @@ CREATE TABLE IF NOT EXISTS link_tag (
   FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
 CREATE INDEX IF NOT EXISTS idx_link_tag_tag_id ON link_tag(tag_id);
-
-CREATE TABLE IF NOT EXISTS user_tag (
-  user_id INT NOT NULL,
-  tag_id INT NOT NULL,
-  PRIMARY KEY (user_id, tag_id),
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (tag_id) REFERENCES tags(id)
-);
-CREATE INDEX IF NOT EXISTS idx_user_tag_tag_id ON user_tag(tag_id);
