@@ -24,9 +24,19 @@
 
   <p><b>Description: </b> ${link.description}</p>
 
-  <p><b>Tags: </b> ${link.tags}</p>
+  <p><b>Tags: </b>
+    <c:forEach items="${link.tags}" var="tag">
 
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <spring:url value="http://localhost:8080/tags/{tagName}" var="tagName">
+          <spring:param name="tagName" value="${tag.name}"/>
+        </spring:url>
+
+        <a href="${fn:escapeXml(tagName)} ">
+          <c:out value="${tag.name} "/>
+        </a>
+    </c:forEach>
+
+  <c:if test="${pageContext.request.userPrincipal.name == link.user.username}">
     <p><b>Clicks: </b> ${link.clicks}</p>
   </c:if>
   

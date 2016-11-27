@@ -12,4 +12,8 @@ public interface SpringDataLinkRepository extends JpaRepository<Link, Integer> {
     List<Link> findFirst10ByOrderByIdDesc();
 
     List<Link> findByUser(User user);
+
+//    @Query(value = "select link from Link link left join link.tags.name name where name = ?1")
+//    @Query(value = "SELECT * FROM links LEFT JOIN tags t on t.name = ?1", nativeQuery = true)
+    List<Link> findByTagsName(String name);
 }

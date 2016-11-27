@@ -38,19 +38,36 @@ public class LinkController {
         return mav;
     }
 
-    @GetMapping(value = "/links/create")
-    public String initRegistrationForm(Model model) {
+    @GetMapping(value = "/links/new")
+    public String initLinkCreateForm(Model model) {
         Link link = new Link();
         model.addAttribute("link", link);
-        return "links/createLinkForm";
+        return "links/createOrUpdateLinkForm";
     }
 
-    @PostMapping(value = "/links/create")
-    public String processRegistrationForm(@Valid Link link, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "links/createLinkForm";
+    @PostMapping(value = "/links/new")
+    public String processLinkCreateForm(@Valid Link link, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "links/createOrUpdateLinkForm";
         }
         linkerService.saveLink(link);
-        return "redirect:/welcome";
+        return "redirect:/links/" + link.getId();
+    }
+
+    @GetMapping(value = "/links/{id}/edit")
+    public String initLinkUpdateForm(@PathVariable("id") Integer id, Model model) {
+        Link link = linkerService.findLink(id);
+        model.addAttribute("link", link);
+        return "links/createOrUpdateLinkForm";
+    }
+
+    @PostMapping(value = "/links/{id}/edit")
+    public String processLinkUpdateForm(@Valid Link link, BindingResult result, @PathVariable("id") Integer id) {
+        if (result.hasErrors()) {
+            return "links/createOrUpdateLinkForm";
+        }
+        link.setId(id);
+        linkerService.saveLink(link);
+        return "redirect:/links/" + id;
     }
 }

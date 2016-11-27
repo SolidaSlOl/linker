@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 public class NamedEntity extends BaseEntity {
     @Size(min = 2, max = 20)
     @Column(name = "name")
-    private String name;
+    protected String name;
 
     public String getName() {
         return this.name;

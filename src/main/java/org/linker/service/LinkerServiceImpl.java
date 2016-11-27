@@ -4,7 +4,6 @@ import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
 import org.linker.repository.springdatajpa.SpringDataLinkRepository;
 import org.linker.repository.springdatajpa.SpringDataRoleRepository;
-import org.linker.repository.springdatajpa.SpringDataTagRepository;
 import org.linker.repository.springdatajpa.SpringDataUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,15 +18,15 @@ import java.util.List;
 @Service
 public class LinkerServiceImpl implements LinkerService {
     @Autowired
-    SpringDataLinkRepository linkRepository;
+    private SpringDataLinkRepository linkRepository;
     @Autowired
-    SpringDataUserRepository userRepository;
+    private SpringDataUserRepository userRepository;
     @Autowired
-    SpringDataTagRepository tagRepository;
-    @Autowired
-    SpringDataRoleRepository roleRepository;
+    private SpringDataRoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private ConverterService converter;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,9 +35,16 @@ public class LinkerServiceImpl implements LinkerService {
     }
 
     @Override
+    public List<Link> findLinksByTagName(String tagName) {
+        return linkRepository.findByTagsName(tagName);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Link findLink(Integer id) {
-        return linkRepository.findOne(id);
+        Link link = linkRepository.findOne(id);
+        link.setTagsInString(converter.tagsToString(link.getTags()));
+        return link;
     }
 
     @Override
@@ -65,6 +71,7 @@ public class LinkerServiceImpl implements LinkerService {
     @Transactional
     public void saveLink(Link link) {
         link.setUser(getCurrentUser());
+        link.setTags(converter.stringToTags(link.getTagsInString()));
         linkRepository.save(link);
     }
 

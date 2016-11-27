@@ -8,7 +8,7 @@
 <linker:layout title="Home" >
 
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-    <a href="/links/create" class="btn btn-primary" role="button">
+    <a href="/links/new" class="btn btn-primary" role="button">
       Add link
     </a>
 	</c:if>

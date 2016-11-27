@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tags")
-public class Tag extends NamedEntity {
+public class Tag extends NamedEntity{
     @ManyToMany
     @JoinTable(
             name = "link_tag",
@@ -21,11 +21,25 @@ public class Tag extends NamedEntity {
         return links;
     }
 
+    public Tag() { }
+
+    public Tag(String name) {
+        this.setName(name);
+    }
+
     public List<Link> getLinks() {
         return getLinksInternal();
     }
 
     public void addLink(Link link) {
         this.links.add(link);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,12 +1,31 @@
 package org.linker.service;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.linker.model.domain.Link;
+import org.linker.model.domain.Tag;
 
-import static org.hamcrest.Matchers.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ConverterServiceTests {
-    ConverterService converter = new ConverterServiceImpl();
+    private static String TEST_TAG_NAME_1 = "best";
+    private static String TEST_TAG_NAME_2 = "food";
+    private static String TEST_TAG_NAME_3 = "tasty";
+    private static String TEST_TAG_STRING = "best, " + "food, " + "tasty";
+
+    private ConverterService converter = new ConverterServiceImpl();
+    private List<Tag> testTags;
+
+    @Before
+    public void setUp() {
+        testTags = new ArrayList<>();
+        testTags.add(new Tag(TEST_TAG_NAME_1));
+        testTags.add(new Tag(TEST_TAG_NAME_2));
+        testTags.add(new Tag(TEST_TAG_NAME_3));
+    }
 
     @Test
     public void testEncode_whenIdGreaterThanZero() {
@@ -58,5 +77,28 @@ public class ConverterServiceTests {
     @Test
     public void testDecode_whenEmptyStrings() {
         assertEquals(converter.decode(""), 0);
+    }
+
+    @Test
+    public void testTagsToString_whenEmptyTagList() {
+        assertEquals("", converter.tagsToString(new ArrayList<>()));
+    }
+
+    @Test
+    public void testTagsToString_whenTagListWithValues() {
+        assertEquals(TEST_TAG_STRING, converter.tagsToString(testTags));
+    }
+
+    @Test
+    public void testStringToTags_whenEmptyString() {
+        assertTrue(converter.stringToTags("").isEmpty());
+    }
+
+    @Test
+    public void testStringToTags_whenStringWithValues() {
+        List<Tag> tags = converter.stringToTags(TEST_TAG_STRING);
+        assertEquals(tags.get(0).getName(), TEST_TAG_NAME_1);
+        assertEquals(tags.get(1).getName(), TEST_TAG_NAME_2);
+        assertEquals(tags.get(2).getName(), TEST_TAG_NAME_3);
     }
 }

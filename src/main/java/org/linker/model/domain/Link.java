@@ -3,15 +3,13 @@ package org.linker.model.domain;
 import org.linker.service.ConverterServiceImpl;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@NamedNativeQuery(name = "Link.findByUser",
-//        query="SELECT * FROM links  WHERE t.title = 'title'",
-//        resultClass = Todo.class
-//)
 @Table(name = "links")
 public class Link extends BaseEntity {
     @Column(name = "original")
@@ -33,6 +31,11 @@ public class Link extends BaseEntity {
             joinColumns = @JoinColumn(name="link_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags;
+
+
+    @Transient
+    @Pattern(regexp = "\\w+( \\w+)*", message = "Format should be like \"Tag_1 Tag_2 ... Tag_n\"")
+    private String tagsInString;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
@@ -77,7 +80,7 @@ public class Link extends BaseEntity {
         return this.tags;
     }
 
-    private void setTagsInternal(List<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -87,6 +90,14 @@ public class Link extends BaseEntity {
 
     public void addTag(Tag tag) {
         getTagsInternal().add(tag);
+    }
+
+    public String getTagsInString() {
+        return this.tagsInString;
+    }
+
+    public void setTagsInString(String tagsInString) {
+        this.tagsInString = tagsInString;
     }
 
     public User getUser() {

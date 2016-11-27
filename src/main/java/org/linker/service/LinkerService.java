@@ -10,6 +10,8 @@ public interface LinkerService {
 
     List<Link> findLinksByUser();
 
+    List<Link> findLinksByTagName(String tagName);
+
     Link findLink(Integer id);
 
     List<Link> findLastTenLinks();
