@@ -1,1 +1,0 @@
-Application exists on heroku https://linker-test.herokuapp.com/
