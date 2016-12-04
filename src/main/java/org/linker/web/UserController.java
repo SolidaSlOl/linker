@@ -5,11 +5,14 @@ import org.linker.service.LinkerService;
 import org.linker.service.SecurityService;
 import org.linker.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Locale;
 
 @Controller
 public class UserController {
@@ -26,14 +29,15 @@ public class UserController {
     public String initRegistrationForm(Model model) {
         model.addAttribute("userForm", new User());
 
+
         return "users/registration";
     }
 
     @PostMapping(value = "/registration")
-    public String processRegistrationForm(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+    public String processRegistrationForm(@ModelAttribute("userForm") User userForm, BindingResult result, Model model) {
+        userValidator.validate(userForm, result);
 
-        if (bindingResult.hasErrors()) {
+        if (result.hasErrors()) {
             return "users/registration";
         }
 

@@ -10,13 +10,13 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ConverterServiceTests {
+public class ConverterServiceImplTest {
     private static String TEST_TAG_NAME_1 = "best";
     private static String TEST_TAG_NAME_2 = "food";
     private static String TEST_TAG_NAME_3 = "tasty";
     private static String TEST_TAG_STRING = "best " + "food " + "tasty";
 
-    private ConverterService converter = new ConverterServiceImpl();
+    private ConverterServiceImpl converter = new ConverterServiceImpl();
     private List<Tag> testTags;
 
     @Before

@@ -1,6 +1,5 @@
 package org.linker.web;
 
-import org.linker.service.ConverterService;
 import org.linker.service.LinkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
     @Autowired
     LinkerService linkerService;
-    @Autowired
-    ConverterService converterService;
 
     @GetMapping
     public ModelAndView welcome(Model model) {

@@ -1,1 +1,1 @@
-Application exists on heroku https://linker-test.herokuapp.com/
+Application on heroku https://linker-test.herokuapp.com/
