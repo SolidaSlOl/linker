@@ -35,6 +35,7 @@ public class LinkerServiceImpl implements LinkerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Link> findLinksByTagName(String tagName) {
         return linkRepository.findByTagsName(tagName);
     }

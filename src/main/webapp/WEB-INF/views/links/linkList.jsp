@@ -14,7 +14,9 @@
     <tr>
       <th>Original URL</th>
       <th>Short URL</th>
-      <th>Clicks</th>
+      <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <th>Clicks</th>
+      </c:if>
       <th></th>
       <th></th>
     </tr>
@@ -39,9 +41,11 @@
             <c:out value="/${link.shorten}"/>
           </a>
         </td>
-        <th>
-          <c:out value="${link.clicks}"/>
-        </th>
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+          <th>
+            <c:out value="${link.clicks}"/>
+          </th>
+        </c:if>
         <td>
           <spring:url value="/links/{linkId}" var="linkId">
             <spring:param name="linkId" value="${link.id}"/>
