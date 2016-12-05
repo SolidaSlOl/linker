@@ -16,11 +16,9 @@ import javax.validation.Valid;
 @Controller
 public class LinkController {
     @Autowired
-    LinkerService linkerService;
+    private LinkerService linkerService;
     @Autowired
-    SecurityService securityService;
-    @Autowired
-    ConverterService converterService;
+    private ConverterService converterService;
 
     @GetMapping(value = "/{shorten}")
     public String redirectToActualLink(@PathVariable("shorten") String shortLink){

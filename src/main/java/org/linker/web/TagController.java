@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("tags/")
 public class TagController {
     @Autowired
-    LinkerService linkerService;
+    private LinkerService linkerService;
 
     @GetMapping(value = "{name}")
     public ModelAndView findLinksByTagName(@PathVariable("name") String name) {

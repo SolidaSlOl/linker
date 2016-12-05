@@ -20,11 +20,4 @@ public class Initializer extends SpringBootServletInitializer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Initializer.class, args);
     }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.US);
-        return slr;
-    }
 }

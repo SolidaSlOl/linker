@@ -1,16 +1,22 @@
 package org.linker.service;
 
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.JUnit4ClassRunner;
+import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.linker.model.domain.Link;
 import org.linker.model.domain.Tag;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ConverterServiceImplTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ConverterServiceImplTest extends TestCase {
     private static String TEST_TAG_NAME_1 = "best";
     private static String TEST_TAG_NAME_2 = "food";
     private static String TEST_TAG_NAME_3 = "tasty";

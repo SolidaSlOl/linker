@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping({"/", "/welcome"})
 public class HomeController {
     @Autowired
-    LinkerService linkerService;
+    private LinkerService linkerService;
 
     @GetMapping
     public ModelAndView welcome(Model model) {

@@ -1,6 +1,5 @@
 package org.linker.service;
 
-import org.linker.model.domain.Link;
 import org.linker.model.domain.Tag;
 import org.springframework.stereotype.Service;
 
