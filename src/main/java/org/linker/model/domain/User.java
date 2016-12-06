@@ -1,9 +1,18 @@
 package org.linker.model.domain;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +37,7 @@ public class User extends BaseEntity {
     private Set<Role> roles;
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -36,31 +45,31 @@ public class User extends BaseEntity {
     }
 
     public String getPasswordConfirm() {
-        return passwordConfirm;
+        return this.passwordConfirm;
     }
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public List<Link> getLinksInternal() {
+    private List<Link> getLinksInternal() {
         if (this.links == null) {
             this.links = new ArrayList<>();
         }
-        return links;
+        return this.links;
     }
 
     public List<Link> getLinks() {
-        return getLinksInternal();
+        return this.getLinksInternal();
     }
 
     public void addLink(Link link) {
-        getLinksInternal().add(link);
+        this.getLinksInternal().add(link);
         link.setUser(this);
     }
 
     public Set<Role> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -68,7 +77,7 @@ public class User extends BaseEntity {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {

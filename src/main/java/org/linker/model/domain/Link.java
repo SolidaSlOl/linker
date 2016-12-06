@@ -1,13 +1,19 @@
 package org.linker.model.domain;
 
-import org.linker.service.ConverterServiceImpl;
-
-import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.linker.service.ConverterServiceImpl;
 
 @Entity
 @Table(name = "links")
@@ -15,6 +21,10 @@ public class Link extends BaseEntity {
     @Column(name = "original")
     private String original;
 
+    /**
+     * Shorten link is hash of Link's Id. So it is not stored directly in database
+     * and should provide greater performance.
+     */
     @Transient
     private String shorten;
 
@@ -27,18 +37,17 @@ public class Link extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "link_tag",
-            joinColumns = @JoinColumn(name="link_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+        name = "link_tag",
+        joinColumns = @JoinColumn(name = "link_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private List<Tag> tags;
-
 
     @Transient
     @Pattern(regexp = "\\w+( \\w+)*", message = "Format should be like \"Tag_1 Tag_2 ... Tag_n\"")
     private String tagsInString;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public String getOriginal() {
@@ -52,15 +61,12 @@ public class Link extends BaseEntity {
     public Integer getClicks() {
         return clicks;
     }
-
-    public String getShorten() {
-        return new ConverterServiceImpl().encode(this.getId());
-    }
-
     public void setClicks(Integer clicks) {
         this.clicks = clicks;
     }
-
+    public String getShorten() {
+        return new ConverterServiceImpl().encode(this.getId());
+    }
     public void addClick() {
         this.clicks++;
     }
@@ -74,22 +80,19 @@ public class Link extends BaseEntity {
     }
 
     private List<Tag> getTagsInternal() {
-        if(this.tags == null) {
+        if (this.tags == null) {
             this.tags = new ArrayList<>();
         }
         return this.tags;
     }
-
+    public List<Tag> getTags() {
+        return this.getTagsInternal();
+    }
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
-
-    public List<Tag> getTags() {
-        return getTagsInternal();
-    }
-
     public void addTag(Tag tag) {
-        getTagsInternal().add(tag);
+        this.getTagsInternal().add(tag);
     }
 
     public String getTagsInString() {

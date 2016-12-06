@@ -1,8 +1,12 @@
 package org.linker.model.domain;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tags")
@@ -18,7 +22,7 @@ public class Tag extends NamedEntity{
         if(this.links == null) {
             this.links = new ArrayList<>();
         }
-        return links;
+        return this.links;
     }
 
     public Tag() { }

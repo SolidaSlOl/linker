@@ -2,14 +2,9 @@ package org.linker.service;
 
 import org.linker.model.domain.Tag;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Shorten link is hash of Link's Id. So it is not stored directly in database and should provide
- * greater performance.
- */
 @Service
 public class ConverterServiceImpl implements ConverterService {
     /**
@@ -19,12 +14,13 @@ public class ConverterServiceImpl implements ConverterService {
      * Example output:
      * 123456789 <=> pgK8p
      */
-    private static final String ALPHABET = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
+    private static final String ALPHABET =
+        "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
+    /**
+     * Scale of notation.
+     */
     private static final Integer BASE = ALPHABET.length();
 
-    /**
-     * takes an ID and turns it into a short string
-     */
     @Override
     public String encode(Integer num) {
         StringBuilder str = new StringBuilder();
@@ -35,9 +31,6 @@ public class ConverterServiceImpl implements ConverterService {
         return str.toString();
     }
 
-    /**
-     * takes a short string and turns it into an ID
-     */
     @Override
     public int decode(String str) {
         Integer num = 0;
@@ -48,8 +41,8 @@ public class ConverterServiceImpl implements ConverterService {
     }
 
     @Override
-    public List<Tag> stringToTags(String tagString) {
-        if(tagString.isEmpty()) {
+    public List<Tag> stringToTags(final String tagString) {
+        if (tagString.isEmpty()) {
             return new ArrayList<>();
         }
         List<Tag> tags = new ArrayList<>();
@@ -62,14 +55,14 @@ public class ConverterServiceImpl implements ConverterService {
 
     @Override
     public String tagsToString(List<Tag> tags) {
-        if(tags.isEmpty()){
+        if (tags.isEmpty()){
             return "";
         }
-        StringBuilder sb = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         for (Tag tag : tags) {
-            sb.append(tag.getName()).append(" ");
+            builder.append(tag.getName()).append(" ");
         }
-        sb.delete(sb.length() - 1, sb.length());
-        return sb.toString();
+        builder.delete(builder.length() - 1, builder.length());
+        return builder.toString();
     }
 }

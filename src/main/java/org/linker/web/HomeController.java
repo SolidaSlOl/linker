@@ -17,7 +17,7 @@ public class HomeController {
     @GetMapping
     public ModelAndView welcome(Model model) {
         ModelAndView mav = new ModelAndView("home");
-        mav.addObject("links", linkerService.findLastTenLinks());
+        mav.addObject("links", this.linkerService.findLastTenLinks());
         return mav;
     }
 }

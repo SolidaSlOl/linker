@@ -21,31 +21,37 @@ public class SecurityServiceImpl implements SecurityService{
 
     @Override
     public String findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Object userDetails = SecurityContextHolder.getContext()
+            .getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
             return ((UserDetails)userDetails).getUsername();
         }
         return null;
     }
 
+    @Override
     public User findLoggedInUser() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Object userDetails = SecurityContextHolder.getContext()
+            .getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
-            return userRepository.findByUsername(((UserDetails)userDetails).getUsername());
+            return this.userRepository.findByUsername(((UserDetails)userDetails)
+                .getUsername());
         }
         return null;
     }
 
     @Override
     public void autologin(String username, String password) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+                new UsernamePasswordAuthenticationToken(userDetails, password,
+                    userDetails.getAuthorities());
 
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(
+                usernamePasswordAuthenticationToken);
         }
     }
 }

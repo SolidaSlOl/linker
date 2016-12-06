@@ -17,7 +17,7 @@ public class TagController {
     @GetMapping(value = "{name}")
     public ModelAndView findLinksByTagName(@PathVariable("name") String name) {
         ModelAndView mav = new ModelAndView("links/linkList");
-        mav.addObject("links", linkerService.findLinksByTagName(name));
+        mav.addObject("links", this.linkerService.findLinksByTagName(name));
         return mav;
     }
 }
