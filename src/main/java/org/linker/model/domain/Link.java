@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016-2016 Mikita Herasiutsin
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.linker.model.domain;
 
 import java.util.ArrayList;
@@ -15,6 +38,13 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.linker.service.ConverterServiceImpl;
 
+/**
+ * Link entity.
+ *
+ * @since 1.0
+ * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
+ * @version $Id$
+ */
 @Entity
 @Table(name = "links")
 public class Link extends BaseEntity {
@@ -22,8 +52,8 @@ public class Link extends BaseEntity {
     private String original;
 
     /**
-     * Shorten link is hash of Link's Id. So it is not stored directly in database
-     * and should provide greater performance.
+     * Shorten link is hash of Link's Id. So it is not stored directly in
+     * database and should provide greater performance.
      */
     @Transient
     private String shorten;
@@ -38,12 +68,22 @@ public class Link extends BaseEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "link_tag",
-        joinColumns = @JoinColumn(name = "link_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(
+            name = "link_id",
+            referencedColumnName = "id"
+        ),
+        inverseJoinColumns = @JoinColumn(
+            name = "tag_id",
+            referencedColumnName = "id"
+        )
+    )
     private List<Tag> tags;
 
     @Transient
-    @Pattern(regexp = "\\w+( \\w+)*", message = "Format should be like \"Tag_1 Tag_2 ... Tag_n\"")
+    @Pattern(
+        regexp = "\\w+( \\w+)*",
+        message = "Format should be like \"Tag_1 Tag_2 ... Tag_n\""
+    )
     private String tagsInString;
 
     @ManyToOne
@@ -54,14 +94,14 @@ public class Link extends BaseEntity {
         return original;
     }
 
-    public void setOriginal(String original) {
+    public void setOriginal(final String original) {
         this.original = original;
     }
 
     public Integer getClicks() {
         return clicks;
     }
-    public void setClicks(Integer clicks) {
+    public void setClicks(final Integer clicks) {
         this.clicks = clicks;
     }
     public String getShorten() {
@@ -72,10 +112,10 @@ public class Link extends BaseEntity {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -88,10 +128,12 @@ public class Link extends BaseEntity {
     public List<Tag> getTags() {
         return this.getTagsInternal();
     }
-    public void setTags(List<Tag> tags) {
+
+    public void setTags(final List<Tag> tags) {
         this.tags = tags;
     }
-    public void addTag(Tag tag) {
+
+    public void addTag(final Tag tag) {
         this.getTagsInternal().add(tag);
     }
 
@@ -99,7 +141,7 @@ public class Link extends BaseEntity {
         return this.tagsInString;
     }
 
-    public void setTagsInString(String tagsInString) {
+    public void setTagsInString(final String tagsInString) {
         this.tagsInString = tagsInString;
     }
 
@@ -107,7 +149,7 @@ public class Link extends BaseEntity {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 }
