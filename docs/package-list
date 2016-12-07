@@ -1,0 +1,7 @@
+org.linker
+org.linker.config
+org.linker.model.domain
+org.linker.repository.springdatajpa
+org.linker.service
+org.linker.validator
+org.linker.web

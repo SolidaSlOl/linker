@@ -28,9 +28,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.linker.model.domain.Tag;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test case for {@link ConverterServiceImpl}.
@@ -39,7 +37,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 public class ConverterServiceImplTest extends TestCase {
     private static String TEST_TAG_NAME_1 = "best";
     private static String TEST_TAG_NAME_2 = "food";
