@@ -24,3 +24,5 @@ dist/
 nbdist/
 .nb-gradle/
 /projectFilesBackup/
+/linker.ids
+/linker.corrupted.20161127-085902.ids
