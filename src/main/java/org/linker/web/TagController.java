@@ -23,7 +23,7 @@
  */
 package org.linker.web;
 
-import org.linker.service.LinkerService;
+import org.linker.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +42,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("tags/")
 public class TagController {
     @Autowired
-    private LinkerService linkerService;
+    private LinkService linkService;
 
     @GetMapping(value = "{name}")
-    public ModelAndView findLinksByTagName(
+    public final ModelAndView findLinksByTagName(
         @PathVariable("name") final String name
     ) {
         ModelAndView mav = new ModelAndView("links/linkList");
-        mav.addObject("links", this.linkerService.findLinksByTagName(name));
+        mav.addObject("links", this.linkService.findLinksByTagName(name));
         return mav;
     }
 }

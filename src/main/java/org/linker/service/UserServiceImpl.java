@@ -23,43 +23,52 @@
  */
 package org.linker.service;
 
-import org.linker.model.domain.Role;
+import java.util.HashSet;
 import org.linker.model.domain.User;
+import org.linker.repository.springdatajpa.RoleRepository;
 import org.linker.repository.springdatajpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * User's details service.
- *
- * @since 1.0
+ * User service.
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
- * @version $Id$
+ * @version 1.0
+ * @since 1.0
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private SecurityService securityService;
 
     @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String username)
-        throws UsernameNotFoundException {
-        User user = this.userRepository.findByUsername(username);
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), grantedAuthorities
+    @Transactional
+    public void registerUser(final User user) {
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(this.roleRepository.findAll()));
+        this.userRepository.save(user);
+        this.securityService.autologin(
+            user.getUsername(), user.getPasswordConfirm()
         );
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findCurrentUser() {
+        return this.userRepository.findByUsername(SecurityContextHolder
+            .getContext().getAuthentication().getName());
     }
 }

@@ -21,33 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.linker.model.domain;
+package org.linker.repository.springdatajpa;
 
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Size;
+import org.linker.model.domain.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Adds a name to inhered entities.
+ *Spring Data repository for role entity
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-@MappedSuperclass
-public class NamedEntity extends BaseEntity {
-    @Size(min = 2, max = 20)
-    protected String name;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return this.getName();
-    }
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+    /**
+     * Find role by its name.
+     * @param name Role name
+     * @return Role found
+     */
+    Role findByName(final String name);
 }

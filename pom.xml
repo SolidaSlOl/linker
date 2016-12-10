@@ -126,6 +126,11 @@
       <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
@@ -165,22 +170,6 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>com.qulice</groupId>
-        <artifactId>qulice-maven-plugin</artifactId>
-        <version>0.17</version>
-        <configuration>
-          <license>file:${basedir}/LICENSE.txt</license>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>

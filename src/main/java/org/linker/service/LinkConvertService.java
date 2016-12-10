@@ -21,33 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.linker.model.domain;
-
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Size;
+package org.linker.service;
 
 /**
- * Adds a name to inhered entities.
+ * Link's converter.
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-@MappedSuperclass
-public class NamedEntity extends BaseEntity {
-    @Size(min = 2, max = 20)
-    protected String name;
+public interface LinkConvertService {
+    /**
+     * Takes a link's id and turns it into a short link.
+     * @param num Id
+     * @return String
+     */
+    String encode(Integer num);
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return this.getName();
-    }
+    /**
+     * Takes a short link and turns it into an link's id.
+     * @param string String
+     * @return Id
+     */
+    int decode(final String string);
 }

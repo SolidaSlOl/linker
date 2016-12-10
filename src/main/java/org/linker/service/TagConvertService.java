@@ -23,66 +23,28 @@
  */
 package org.linker.service;
 
-import org.linker.model.domain.Link;
-import org.linker.model.domain.User;
 import java.util.List;
+import org.linker.model.domain.Tag;
 
 /**
- * Main persistence service.
- *
- * @since 1.0
+ * Tag's converter.
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
- * @version $Id$
+ * @version 1.0
+ * @since 1.0
  */
-public interface LinkerService {
-    /**
-     * Save user.
-     * @param user User
-     */
-    void saveUser(final User user);
+public interface TagConvertService {
 
     /**
-     * Find links by user.
-     * @return Links found
+     * Take string with tags and turn it into list of tags
+     * @param tagString String with tags
+     * @return Tags
      */
-    List<Link> findLinksByUser();
+    List<Tag> stringToTags(final String tagString);
 
     /**
-     * Find links by tag's name.
-     * @param tagName Tag's name
-     * @return Links
+     * Take list of tags and turn it into a string with tags.
+     * @param tags Tags
+     * @return String
      */
-    List<Link> findLinksByTagName(final String tagName);
-
-    /**
-     * Find link by id.
-     * @param id Id
-     * @return Link
-     */
-    Link findLink(final Integer id);
-
-    /**
-     * Find most recently added 10 links.
-     * @return links
-     */
-    List<Link> findLastTenLinks();
-
-    /**
-     * Save link.
-     * @param link Link
-     */
-    void saveLink(final Link link);
-
-    /**
-     * Update link.
-     * @param link Link
-     */
-    void updateLink(final Link link);
-
-    /**
-     * Find user by username.
-     * @param username Username
-     * @return User
-     */
-    User findUserByUsername(final String username);
+    String tagsToString(final List<Tag> tags);
 }

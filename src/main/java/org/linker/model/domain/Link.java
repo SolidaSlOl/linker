@@ -26,7 +26,6 @@ package org.linker.model.domain;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -36,7 +35,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.linker.service.ConverterServiceImpl;
+import org.linker.service.LinkConvertServiceImpl;
 
 /**
  * Link entity.
@@ -48,7 +47,6 @@ import org.linker.service.ConverterServiceImpl;
 @Entity
 @Table(name = "links")
 public class Link extends BaseEntity {
-    @Column(name = "original")
     private String original;
 
     /**
@@ -58,11 +56,9 @@ public class Link extends BaseEntity {
     @Transient
     private String shorten;
 
-    @Column(name = "clicks")
     private Integer clicks = 0;
 
     @Size(min = 10, max = 150)
-    @Column(name = "description")
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -91,7 +87,7 @@ public class Link extends BaseEntity {
     private User user;
 
     public String getOriginal() {
-        return original;
+        return this.original;
     }
 
     public void setOriginal(final String original) {
@@ -99,13 +95,13 @@ public class Link extends BaseEntity {
     }
 
     public Integer getClicks() {
-        return clicks;
+        return this.clicks;
     }
     public void setClicks(final Integer clicks) {
         this.clicks = clicks;
     }
     public String getShorten() {
-        return new ConverterServiceImpl().encode(this.getId());
+        return new LinkConvertServiceImpl().encode(this.getId());
     }
     public void addClick() {
         this.clicks++;
@@ -146,7 +142,7 @@ public class Link extends BaseEntity {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(final User user) {

@@ -23,21 +23,16 @@
  */
 package org.linker.service;
 
-import java.util.HashSet;
 import java.util.List;
 import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
-import org.linker.repository.springdatajpa.SpringDataLinkRepository;
-import org.linker.repository.springdatajpa.SpringDataRoleRepository;
-import org.linker.repository.springdatajpa.SpringDataUserRepository;
+import org.linker.repository.springdatajpa.LinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Main persistence service.
+ * Link service.
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
@@ -45,22 +40,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Service
-public class LinkerServiceImpl implements LinkerService {
+public class LinkServiceImpl implements LinkService {
     @Autowired
-    private SpringDataLinkRepository linkRepository;
+    private LinkRepository linkRepository;
     @Autowired
-    private SpringDataUserRepository userRepository;
+    private LinkConvertService linkConvertService;
     @Autowired
-    private SpringDataRoleRepository roleRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private ConverterService converter;
+    private TagConvertService tagConvertService;
 
     @Override
     @Transactional(readOnly = true)
-    public List<Link> findLinksByUser() {
-        return this.linkRepository.findByUser(this.getCurrentUser());
+    public List<Link> findLinksByUser(final User user) {
+        return this.linkRepository.findByUser(user);
     }
 
     @Override
@@ -73,7 +64,7 @@ public class LinkerServiceImpl implements LinkerService {
     @Transactional(readOnly = true)
     public Link findLink(final Integer id) {
         Link link = this.linkRepository.findOne(id);
-        link.setTagsInString(this.converter.tagsToString(link.getTags()));
+        link.setTagsInString(this.tagConvertService.tagsToString(link.getTags()));
         return link;
     }
 
@@ -85,34 +76,19 @@ public class LinkerServiceImpl implements LinkerService {
 
     @Override
     @Transactional
-    public void saveUser(final User user) {
-        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(this.roleRepository.findAll()));
-        this.userRepository.save(user);
+    public String redirect(final String shorten) {
+        Integer linkId = this.linkConvertService.decode(shorten);
+        Link link = this.findLink(linkId);
+        link.addClick();
+        this.linkRepository.save(link);
+        return link.getOriginal();
     }
 
     @Override
     @Transactional
-    public void updateLink(final Link link) {
+    public void saveLink(final Link link, final User user) {
+        link.setUser(user);
+        link.setTags(this.tagConvertService.stringToTags(link.getTagsInString()));
         this.linkRepository.save(link);
-    }
-
-    @Override
-    @Transactional
-    public void saveLink(final Link link) {
-        link.setUser(this.getCurrentUser());
-        link.setTags(this.converter.stringToTags(link.getTagsInString()));
-        this.linkRepository.save(link);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public User findUserByUsername(final String username) {
-        return this.userRepository.findByUsername(username);
-    }
-
-    private User getCurrentUser() {
-        return this.userRepository.findByUsername(SecurityContextHolder
-            .getContext().getAuthentication().getName());
     }
 }

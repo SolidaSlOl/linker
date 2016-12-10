@@ -21,23 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.linker.repository.springdatajpa;
+package org.linker.service;
 
-import org.linker.model.domain.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import org.linker.model.domain.Link;
+import org.linker.model.domain.User;
 
 /**
- *Spring Data repository for role entity
+ * Link service.
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-public interface SpringDataRoleRepository extends JpaRepository<Role, Integer> {
+public interface LinkService {
+
     /**
-     * Find role by its name.
-     * @param name Role name
-     * @return Role found
+     * Find links by user.
+     * @return Links found
      */
-    Role findByName(final String name);
+    List<Link> findLinksByUser(final User user);
+
+    /**
+     * Find links by tag's name.
+     * @param tagName Tag's name
+     * @return Links
+     */
+    List<Link> findLinksByTagName(final String tagName);
+
+    /**
+     * Find link by id.
+     * @param id Id
+     * @return Link
+     */
+    Link findLink(final Integer id);
+
+    /**
+     * Find most recently added 10 links.
+     * @return links
+     */
+    List<Link> findLastTenLinks();
+
+    /**
+     * Save link.
+     * @param link Link
+     */
+    void saveLink(final Link link, final User user);
+
+    /**
+     * Redirect.
+     * @param shorten Short link
+     * @return Actual link
+     */
+    String redirect(final String shorten);
 }

@@ -23,7 +23,7 @@
  */
 package org.linker.web;
 
-import org.linker.service.LinkerService;
+import org.linker.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +41,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping({"/", "/welcome"})
 public class HomeController {
     @Autowired
-    private LinkerService linkerService;
+    private LinkService linkService;
 
     @GetMapping
-    public ModelAndView welcome() {
+    public final ModelAndView welcome() {
         ModelAndView mav = new ModelAndView("home");
-        mav.addObject("links", this.linkerService.findLastTenLinks());
+        mav.addObject("links", this.linkService.findLastTenLinks());
         return mav;
     }
 }

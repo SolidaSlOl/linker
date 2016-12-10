@@ -24,7 +24,7 @@
 package org.linker.validator;
 
 import org.linker.model.domain.User;
-import org.linker.service.LinkerService;
+import org.linker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -42,7 +42,7 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
     @Autowired
-    private LinkerService linkerService;
+    private UserService userService;
 
     @Override
     public boolean supports(final Class<?> aClass) {
@@ -56,24 +56,24 @@ public class UserValidator implements Validator {
         Integer psLength = user.getPassword().length();
         Integer usernameLength = username.length();
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username",
-            "NotEmpty");
+            "notEmpty");
         if (usernameLength < 6 || usernameLength > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "size.userForm.username");
         }
-        if (this.linkerService.findUserByUsername(username) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+        if (this.userService.findByUsername(username) != null) {
+            errors.rejectValue("username", "duplicate.userForm.username");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
-            "NotEmpty");
+            "notEmpty");
         if (psLength < 8 || psLength > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "size.userForm.password");
         }
 
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
             errors.rejectValue(
                 "passwordConfirm",
-                "Diff.userForm.passwordConfirm"
+                "diff.userForm.passwordConfirm"
             );
         }
     }

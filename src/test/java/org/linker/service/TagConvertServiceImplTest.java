@@ -25,85 +25,33 @@ package org.linker.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.TestCase;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.linker.model.domain.Tag;
 
 /**
- * Test case for {@link ConverterServiceImpl}.
- *
- * @since 1.0
+ * Test case for {@link TagConvertServiceImpl}.
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
- * @version $Id$
+ * @version 1.0
+ * @since 1.0
  */
-public class ConverterServiceImplTest extends TestCase {
+public class TagConvertServiceImplTest {
     private static String TEST_TAG_NAME_1 = "best";
     private static String TEST_TAG_NAME_2 = "food";
     private static String TEST_TAG_NAME_3 = "tasty";
     private static String TEST_TAG_STRING = "best " + "food " + "tasty";
 
-    private ConverterServiceImpl converter = new ConverterServiceImpl();
-    private List<Tag> testTags;
+
+    private final TagConvertServiceImpl converter = new TagConvertServiceImpl();
+    private final List<Tag> testTags = new ArrayList<>();
 
     @Before
     public void setUp() {
-        this.testTags = new ArrayList<>();
         this.testTags.add(new Tag(TEST_TAG_NAME_1));
         this.testTags.add(new Tag(TEST_TAG_NAME_2));
         this.testTags.add(new Tag(TEST_TAG_NAME_3));
-    }
-
-    @Test
-    public void testEncode_whenIdGreaterThanZero() {
-        assertEquals(this.converter.encode(2), "4");
-        assertEquals(this.converter.encode(456), "bZ");
-        assertEquals(this.converter.encode(159841), "3dv9");
-        assertEquals(this.converter.encode(875683234), "4ztrNx");
-    }
-
-    @Test
-    public void testDecode_whenFormatIsCorrect() {
-        assertEquals(this.converter.decode("4"), 2);
-        assertEquals(this.converter.decode("bZ"), 456);
-        assertEquals(this.converter.decode("3dv9"), 159841);
-        assertEquals(this.converter.decode("4ztrNx"), 875683234);
-    }
-
-    @Test
-    public void testDecode_whenCorrectStringFormat() {
-        assertFalse(this.converter.decode("pgK8p") < 0);
-        assertFalse(this.converter.decode("3jd_") < 0);
-        assertFalse(this.converter.decode("DH8-d") < 0);
-        assertFalse(this.converter.decode("cM8") < 0);
-        assertFalse(this.converter.decode("37fg9") < 0);
-    }
-
-    @Test
-    public void testEncode_whenIdNegativeInteger() {
-        assertEquals(this.converter.encode(-1), "");
-        assertEquals(this.converter.encode(-456), "");
-        assertEquals(this.converter.encode(-456789), "");
-        assertEquals(this.converter.encode(-678987645), "");
-    }
-
-    @Test
-    public void testEncode_whenIdNull() {
-        assertEquals(this.converter.encode(0), "");
-    }
-
-    @Test
-    public void testDecode_whenIncorrectStringFormat() {
-        assertFalse(this.converter.decode("aUI") > 0);
-        assertFalse(this.converter.decode("(sa") > 0);
-        assertFalse(this.converter.decode("!49") > 0);
-        assertFalse(this.converter.decode("123") > 0);
-        assertFalse(this.converter.decode(">?") > 0);
-    }
-
-    @Test
-    public void testDecode_whenEmptyStrings() {
-        assertEquals(this.converter.decode(""), 0);
     }
 
     @Test

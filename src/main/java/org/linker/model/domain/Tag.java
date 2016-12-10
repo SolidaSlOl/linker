@@ -40,21 +40,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tags")
-public class Tag extends NamedEntity{
+public class Tag extends NamedEntity {
     @ManyToMany
     @JoinTable(
-            name = "link_tag",
-            joinColumns = @JoinColumn(name="tag_id",
-                referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(name = "link_id",
-                referencedColumnName = "id"
-            )
+        name = "link_tag",
+        joinColumns = @JoinColumn(name= "tag_id",
+            referencedColumnName = "id"
+        ),
+        inverseJoinColumns = @JoinColumn(name = "link_id",
+            referencedColumnName = "id"
+        )
     )
     private List<Link> links;
 
     private List<Link> getLinksInternal() {
-        if(this.links == null) {
+        if (this.links == null) {
             this.links = new ArrayList<>();
         }
         return this.links;

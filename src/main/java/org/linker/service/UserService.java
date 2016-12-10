@@ -21,38 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.linker.repository.springdatajpa;
+package org.linker.service;
 
-import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
 
 /**
- *Spring Data repository for link entity
- *
- * @since 1.0
+ * User service.
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
- * @version $Id$
+ * @version 1.0
+ * @since 1.0
  */
-public interface SpringDataLinkRepository extends JpaRepository<Link, Integer> {
+public interface UserService {
     /**
-     * Find most recently added 10 links.
-     * @return Links found
+     * Save user.
+     * @param user User
      */
-    List<Link> findFirst10ByOrderByIdDesc();
+    void registerUser(final User user);
+    /**
+     * Find user by username.
+     * @param username Username
+     */
+    User findByUsername(String username);
 
     /**
-     * Find link by user.
-     * @param user User used to find
-     * @return Links found
+     * Find current logged in user.
+     * @return User
      */
-    List<Link> findByUser(final User user);
-
-    /**
-     * Find links by tag name.
-     * @param name Tag name
-     * @return Links found
-     */
-    List<Link> findByTagsName(final String name);
+    User findCurrentUser();
 }

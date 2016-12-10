@@ -47,10 +47,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "password")
     private String password;
 
     @Transient
@@ -58,7 +55,7 @@ public class User extends BaseEntity {
 
     @OneToMany(
         mappedBy = "user", cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER
+        fetch = FetchType.LAZY
     )
     private List<Link> links;
 

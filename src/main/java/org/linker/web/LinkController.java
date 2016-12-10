@@ -25,8 +25,8 @@ package org.linker.web;
 
 import javax.validation.Valid;
 import org.linker.model.domain.Link;
-import org.linker.service.ConverterService;
-import org.linker.service.LinkerService;
+import org.linker.service.LinkService;
+import org.linker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,37 +46,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LinkController {
     @Autowired
-    private LinkerService linkerService;
+    private LinkService linkService;
     @Autowired
-    private ConverterService converterService;
+    private UserService userService;
 
     @GetMapping(value = "/{shorten}")
-    public String redirectToActualLink(
+    public final String redirectToActualLink(
         @PathVariable("shorten") final String shortLink
     ) {
-        Integer linkId = this.converterService.decode(shortLink);
-        Link link = this.linkerService.findLink(linkId);
-        link.addClick();
-        this.linkerService.updateLink(link);
-        return "redirect:" + link.getOriginal();
+        return "redirect:" + this.linkService.redirect(shortLink);
     }
 
     @GetMapping(value = "/links/{id}")
-    public ModelAndView findLink(@PathVariable("id") final Integer id) {
+    public final ModelAndView findLink(@PathVariable("id") final Integer id) {
         ModelAndView mav = new ModelAndView("links/linkDetails");
-        mav.addObject("link", this.linkerService.findLink(id));
+        mav.addObject("link", this.linkService.findLink(id));
         return mav;
     }
 
     @GetMapping(value = "/links/new")
-    public String initLinkCreateForm(final Model model) {
+    public final String initLinkCreateForm(final Model model) {
         final Link link = new Link();
         model.addAttribute("link", link);
         return "links/createOrUpdateLinkForm";
     }
 
     @PostMapping(value = "/links/new")
-    public String processLinkCreateForm(
+    public final String processLinkCreateForm(
         @Valid final Link link,
         final BindingResult result,
         final Model model
@@ -84,21 +80,21 @@ public class LinkController {
         if (result.hasErrors()) {
             return "links/createOrUpdateLinkForm";
         }
-        this.linkerService.saveLink(link);
+        this.linkService.saveLink(link, this.userService.findCurrentUser());
         return "redirect:/links/" + link.getId();
     }
 
     @GetMapping(value = "/links/{id}/edit")
-    public String initLinkUpdateForm(
+    public final String initLinkUpdateForm(
         @PathVariable("id") final Integer id, final Model model
     ) {
-        Link link = this.linkerService.findLink(id);
+        Link link = this.linkService.findLink(id);
         model.addAttribute("link", link);
         return "links/createOrUpdateLinkForm";
     }
 
     @PostMapping(value = "/links/{id}/edit")
-    public String processLinkUpdateForm(
+    public final String processLinkUpdateForm(
         @Valid final Link link,
         final BindingResult result,
         @PathVariable("id") final Integer id
@@ -107,7 +103,17 @@ public class LinkController {
             return "links/createOrUpdateLinkForm";
         }
         link.setId(id);
-        this.linkerService.saveLink(link);
+        this.linkService.saveLink(link, this.userService.findCurrentUser());
         return "redirect:/links/" + id;
+    }
+
+    @GetMapping(value = "/users/my_links")
+    public final ModelAndView findLinksByUserId() {
+        ModelAndView mav = new ModelAndView("links/linkList");
+        mav.addObject("links", this.linkService.findLinksByUser(
+                this.userService.findCurrentUser()
+            )
+        );
+        return mav;
     }
 }

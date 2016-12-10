@@ -23,21 +23,36 @@
  */
 package org.linker.repository.springdatajpa;
 
+import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
- *Spring Data repository for user entity
+ *Spring Data repository for link entity
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-public interface SpringDataUserRepository extends JpaRepository<User, Integer> {
+public interface LinkRepository extends JpaRepository<Link, Integer> {
     /**
-     * Find user by its name.
-     * @param username Username
-     * @return User found
+     * Find most recently added 10 links.
+     * @return Links found
      */
-    User findByUsername(final String username);
+    List<Link> findFirst10ByOrderByIdDesc();
+
+    /**
+     * Find link by user.
+     * @param user User used to find
+     * @return Links found
+     */
+    List<Link> findByUser(final User user);
+
+    /**
+     * Find links by tag name.
+     * @param name Tag name
+     * @return Links found
+     */
+    List<Link> findByTagsName(final String name);
 }

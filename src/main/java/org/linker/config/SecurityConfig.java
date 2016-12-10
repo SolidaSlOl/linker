@@ -24,7 +24,9 @@
 package org.linker.config;
 
 import org.linker.model.domain.Role;
-import org.linker.repository.springdatajpa.SpringDataRoleRepository;
+import org.linker.repository.springdatajpa.RoleRepository;
+import org.linker.service.TagConvertService;
+import org.linker.service.TagConvertServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService details;
     @Autowired
-    private SpringDataRoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Override
     public final void configure(final HttpSecurity http) throws Exception {
@@ -82,5 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public TagConvertService tagConvertService() {
+        return new TagConvertServiceImpl();
     }
 }

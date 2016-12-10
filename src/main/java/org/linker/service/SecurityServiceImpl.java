@@ -24,7 +24,7 @@
 package org.linker.service;
 
 import org.linker.model.domain.User;
-import org.linker.repository.springdatajpa.SpringDataUserRepository;
+import org.linker.repository.springdatajpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,7 +47,7 @@ public class SecurityServiceImpl implements SecurityService{
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
-    private SpringDataUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public String findLoggedInUsername() {

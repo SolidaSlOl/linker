@@ -24,8 +24,7 @@
 package org.linker.web;
 
 import org.linker.model.domain.User;
-import org.linker.service.LinkerService;
-import org.linker.service.SecurityService;
+import org.linker.service.UserService;
 import org.linker.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * User controller.
@@ -48,18 +46,16 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
     @Autowired
-    private LinkerService linkerService;
-    @Autowired
-    private SecurityService securityService;
+    private UserService userService;
 
     @GetMapping(value = "/registration")
-    public String initRegistrationForm(final Model model) {
+    public final String initRegistrationForm(final Model model) {
         model.addAttribute("userForm", new User());
         return "users/registration";
     }
 
     @PostMapping(value = "/registration")
-    public String processRegistrationForm(
+    public final String processRegistrationForm(
         @ModelAttribute("userForm") final User userForm,
         final BindingResult result,
         final Model model
@@ -68,27 +64,24 @@ public class UserController {
         if (result.hasErrors()) {
             return "users/registration";
         }
-        this.linkerService.saveUser(userForm);
-        this.securityService.autologin(userForm.getUsername(),
-            userForm.getPasswordConfirm());
+        this.userService.registerUser(userForm);
         return "redirect:/welcome";
     }
 
     @GetMapping(value = "/login")
-    public String login(
+    public final String login(
         final Model model, final String error, final String logout
     ) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
+        if (error != null) {
+            model.addAttribute(
+                "error", "Your username and/or password is invalid."
+            );
+        }
+        if (logout != null) {
+            model.addAttribute(
+                "message", "You have been logged out successfully."
+            );
+        }
         return "users/login";
-    }
-
-    @GetMapping(value = "/users/my_links")
-    public ModelAndView findLInksByUserId() {
-        ModelAndView mav = new ModelAndView("links/linkList");
-        mav.addObject("links", this.linkerService.findLinksByUser());
-        return mav;
     }
 }

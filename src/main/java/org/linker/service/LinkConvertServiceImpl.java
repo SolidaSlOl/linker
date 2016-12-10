@@ -23,42 +23,47 @@
  */
 package org.linker.service;
 
-import org.linker.model.domain.Tag;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
- * Type's converter.
+ * Link's converter.
  *
  * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
  */
-public interface ConverterService {
+@Service
+public class LinkConvertServiceImpl implements LinkConvertService {
     /**
-     * Takes an id and turns it into a short string.
-     * @param num Id
-     * @return String
+     * proof against offensive words (removed 'a', 'e', 'i', 'o' and 'u')
+     * unambiguous (removed 'I', 'l', '1', 'O' and '0')
+     *
+     * Example output:
+     * 123456789 <=> pgK8p
      */
-    String encode(Integer num);
+    private static final String ALPHABET =
+        "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
+    /**
+     * Scale of notation.
+     */
+    private static final Integer BASE = ALPHABET.length();
 
-    /**
-     * Takes a short string and turns it into an link's id.
-     * @param string String
-     * @return Id
-     */
-    int decode(final String string);
+    @Override
+    public String encode(Integer num) {
+        StringBuilder str = new StringBuilder();
+        while (num > 0) {
+            str.insert(0, ALPHABET.charAt(num % BASE));
+            num = num / BASE;
+        }
+        return str.toString();
+    }
 
-    /**
-     * Take string with tags and turn it into list of tags
-     * @param tagString String with tags
-     * @return Tags
-     */
-    List<Tag> stringToTags(final String tagString);
-
-    /**
-     * Take list of tags and turn it into a string with tags.
-     * @param tags Tags
-     * @return String
-     */
-    String tagsToString(final List<Tag> tags);
+    @Override
+    public int decode(final String str) {
+        Integer num = 0;
+        for (int i = 0; i < str.length(); i++) {
+            num = num * BASE + ALPHABET.indexOf(str.charAt(i));
+        }
+        return num;
+    }
 }
