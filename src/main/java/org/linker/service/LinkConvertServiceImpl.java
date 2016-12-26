@@ -43,6 +43,7 @@ public class LinkConvertServiceImpl implements LinkConvertService {
      */
     private static final String ALPHABET =
         "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
+
     /**
      * Scale of notation.
      */
@@ -50,12 +51,12 @@ public class LinkConvertServiceImpl implements LinkConvertService {
 
     @Override
     public String encode(Integer num) {
-        StringBuilder str = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         while (num > 0) {
-            str.insert(0, ALPHABET.charAt(num % BASE));
+            builder.insert(0, ALPHABET.charAt(num % BASE));
             num = num / BASE;
         }
-        return str.toString();
+        return builder.toString();
     }
 
     @Override

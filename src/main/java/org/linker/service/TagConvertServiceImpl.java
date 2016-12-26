@@ -24,7 +24,9 @@
 package org.linker.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.linker.model.domain.Tag;
 import org.springframework.stereotype.Service;
 
@@ -36,30 +38,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TagConvertServiceImpl implements TagConvertService {
+    private static final String DELIMITER = " ";
 
     @Override
-    public List<Tag> stringToTags(final String tagString) {
-        if (tagString.isEmpty()) {
-            return new ArrayList<>();
+    public List<Tag> stringToTags(final String tagField) {
+        List<Tag> result = new ArrayList<>();
+        if (!tagField.isEmpty()) {
+            Arrays.stream(tagField.split(DELIMITER))
+                .forEach(t -> result.add(new Tag(t)));
         }
-        List<Tag> tags = new ArrayList<>();
-        String[] tagsArray = tagString.split(" ");
-        for (String tag : tagsArray) {
-            tags.add(new Tag(tag));
-        }
-        return tags;
+        return result;
     }
 
     @Override
     public String tagsToString(final List<Tag> tags) {
-        if (tags.isEmpty()){
-            return "";
+        String result = "";
+        if (!tags.isEmpty()) {
+            result = tags.stream()
+                .map(Tag::getName)
+                .collect(Collectors.joining(DELIMITER));
         }
-        StringBuilder builder = new StringBuilder();
-        for (Tag tag : tags) {
-            builder.append(tag.getName()).append(" ");
-        }
-        builder.delete(builder.length() - 1, builder.length());
-        return builder.toString();
+        return result;
     }
 }

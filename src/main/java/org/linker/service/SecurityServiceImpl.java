@@ -35,13 +35,12 @@ import org.springframework.stereotype.Service;
 
 /**
  * Security service.
- *
- * @since 1.0
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version $Id$
+ * @since 1.0
  */
 @Service
-public class SecurityServiceImpl implements SecurityService{
+public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -54,18 +53,7 @@ public class SecurityServiceImpl implements SecurityService{
         Object userDetails = SecurityContextHolder.getContext()
             .getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
-            return ((UserDetails)userDetails).getUsername();
-        }
-        return null;
-    }
-
-    @Override
-    public User findLoggedInUser() {
-        Object userDetails = SecurityContextHolder.getContext()
-            .getAuthentication().getDetails();
-        if (userDetails instanceof UserDetails) {
-            return this.userRepository.findByUsername(((UserDetails)userDetails)
-                .getUsername());
+            return ((UserDetails) userDetails).getUsername();
         }
         return null;
     }
@@ -73,15 +61,23 @@ public class SecurityServiceImpl implements SecurityService{
     @Override
     public void autologin(final String username, final String password) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, password,
-                    userDetails.getAuthorities());
-
-        this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(
-                usernamePasswordAuthenticationToken);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            password,
+            userDetails.getAuthorities()
+        );
+        this.authenticationManager.authenticate(token);
+        if (token.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(token);
         }
+    }
+
+    @Override
+    public User findLoggedInUser() {
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (userDetails instanceof UserDetails) {
+            return this.userRepository.findByUsername(((UserDetails) userDetails).getUsername());
+        }
+        return null;
     }
 }

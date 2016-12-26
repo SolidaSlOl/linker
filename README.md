@@ -6,13 +6,14 @@ Web application that simplifies a link like goo.gl, etc.
 # heroku
 Available on https://linker-test.herokuapp.com/
 
-#Start App
+#Steps to start app locally
 ```
 mvn clean install
-```
-
-```
 java -jar target/dependency/webapp-runner.jar target/*.war
+```
+Type in browser
+```
+http://localhost:8080/
 ```
 
 #JavaDoc

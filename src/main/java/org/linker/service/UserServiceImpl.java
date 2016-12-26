@@ -56,9 +56,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(this.roleRepository.findAll()));
         this.userRepository.save(user);
-        this.securityService.autologin(
-            user.getUsername(), user.getPasswordConfirm()
-        );
+        this.securityService.autologin(user.getUsername(), user.getPasswordConfirm());
     }
 
     @Override
@@ -68,7 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findCurrentUser() {
-        return this.userRepository.findByUsername(SecurityContextHolder
-            .getContext().getAuthentication().getName());
+        return this.userRepository.findByUsername(
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        );
     }
 }

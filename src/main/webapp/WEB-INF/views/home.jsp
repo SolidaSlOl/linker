@@ -32,9 +32,9 @@
 <linker:layout title="Home" >
 
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-    <a href="/links/new" class="btn btn-primary" role="button">
-      Add link
-    </a>
+        <a href="/links/new" class="btn btn-primary" role="button">
+          Add link
+        </a>
 	</c:if>
   <table class="table">
     <thead class="thead-inverse">

@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public final void configure(final HttpSecurity http) throws Exception {
-        final String userRole = "USER_ROLE";
+        String userRole = "USER_ROLE";
         Role role = this.roleRepository.findByName(userRole);
         if (role == null) {
             role = new Role(userRole);

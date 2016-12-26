@@ -53,28 +53,23 @@ public class UserValidator implements Validator {
     public void validate(final Object o, final Errors errors) {
         User user = (User) o;
         String username = user.getUsername();
-        Integer psLength = user.getPassword().length();
+        Integer passLength = user.getPassword().length();
         Integer usernameLength = username.length();
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username",
-            "notEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "notEmpty");
+
         if (usernameLength < 6 || usernameLength > 32) {
             errors.rejectValue("username", "size.userForm.username");
         }
         if (this.userService.findByUsername(username) != null) {
             errors.rejectValue("username", "duplicate.userForm.username");
         }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
             "notEmpty");
-        if (psLength < 8 || psLength > 32) {
+        if (passLength < 8 || passLength > 32) {
             errors.rejectValue("password", "size.userForm.password");
         }
-
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            errors.rejectValue(
-                "passwordConfirm",
-                "diff.userForm.passwordConfirm"
-            );
+            errors.rejectValue("passwordConfirm", "diff.userForm.passwordConfirm");
         }
     }
 }

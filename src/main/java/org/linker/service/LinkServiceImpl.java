@@ -89,6 +89,7 @@ public class LinkServiceImpl implements LinkService {
     public void saveLink(final Link link, final User user) {
         link.setUser(user);
         link.setTags(this.tagConvertService.stringToTags(link.getTagsInString()));
+        link.setClicks(this.linkRepository.findOne(link.getId()).getClicks());
         this.linkRepository.save(link);
     }
 }

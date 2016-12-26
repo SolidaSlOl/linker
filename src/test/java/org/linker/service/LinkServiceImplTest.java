@@ -23,31 +23,41 @@
  */
 package org.linker.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.linker.model.domain.Link;
 import org.linker.model.domain.User;
+import org.linker.repository.springdatajpa.LinkRepository;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- * User service.
+ * Created with IntelliJ IDEA.
  * @author Mikita Herasiutsin (mikita.herasiutsin@gmail.com)
  * @version 1.0
  * @since 1.0
  */
-public interface UserService {
+@RunWith(MockitoJUnitRunner.class)
+public class LinkServiceImplTest {
+    @Mock
+    private LinkRepository linkRepository;
 
-    /**
-     * Save user.
-     * @param user User
-     */
-    void registerUser(final User user);
+    @InjectMocks
+    private LinkServiceImpl linkService;
 
-    /**
-     * Find user by username.
-     * @param username Username
-     */
-    User findByUsername(String username);
-
-    /**
-     * Find current logged in user.
-     * @return User
-     */
-    User findCurrentUser();
+    @Test
+    public void findLinksByUser() throws Exception {
+        User user = new User();
+        ArrayList<Link> expectedLinks = new ArrayList<>();
+        expectedLinks.add(new Link());
+        expectedLinks.add(new Link());
+        when(linkRepository.findByUser(user)).thenReturn(expectedLinks);
+        List<Link> actualLinks = linkService.findLinksByUser(user);
+        assertEquals(expectedLinks, actualLinks);
+    }
 }
