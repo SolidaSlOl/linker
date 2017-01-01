@@ -45,6 +45,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class LinkController {
+    private static final String CREATE_OR_UPDATE_LINK_FORM = "links/createOrUpdateLinkForm";
+
     @Autowired
     private LinkService linkService;
     @Autowired
@@ -68,7 +70,7 @@ public class LinkController {
     public final String initLinkCreateForm(final Model model) {
         final Link link = new Link();
         model.addAttribute("link", link);
-        return "links/createOrUpdateLinkForm";
+        return CREATE_OR_UPDATE_LINK_FORM;
     }
 
     @PostMapping(value = "/links/new")
@@ -78,7 +80,7 @@ public class LinkController {
         final Model model
     ) {
         if (result.hasErrors()) {
-            return "links/createOrUpdateLinkForm";
+            return CREATE_OR_UPDATE_LINK_FORM;
         }
         this.linkService.saveLink(link, this.userService.findCurrentUser());
         return "redirect:/links/" + link.getId();
@@ -90,7 +92,7 @@ public class LinkController {
     ) {
         Link link = this.linkService.findLink(id);
         model.addAttribute("link", link);
-        return "links/createOrUpdateLinkForm";
+        return CREATE_OR_UPDATE_LINK_FORM;
     }
 
     @PostMapping(value = "/links/{id}/edit")
@@ -100,7 +102,7 @@ public class LinkController {
         @PathVariable("id") final Integer id
     ) {
         if (result.hasErrors()) {
-            return "links/createOrUpdateLinkForm";
+            return CREATE_OR_UPDATE_LINK_FORM;
         }
         link.setId(id);
         this.linkService.saveLink(link, this.userService.findCurrentUser());

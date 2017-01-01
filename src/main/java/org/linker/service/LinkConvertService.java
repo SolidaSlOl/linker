@@ -36,7 +36,7 @@ public interface LinkConvertService {
      * @param num Id
      * @return String
      */
-    String encode(Integer num);
+    String encode(int num);
 
     /**
      * Takes a short link and turns it into an link's id.

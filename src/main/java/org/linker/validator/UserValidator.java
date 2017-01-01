@@ -41,6 +41,10 @@ import org.springframework.validation.Validator;
  */
 @Component
 public class UserValidator implements Validator {
+    private static final String USERNAME = "username";
+    private static final String PASS = "password";
+    private static final String PASS_CONFIRM = "passwordConfirm";
+
     @Autowired
     private UserService userService;
 
@@ -55,21 +59,20 @@ public class UserValidator implements Validator {
         String username = user.getUsername();
         Integer passLength = user.getPassword().length();
         Integer usernameLength = username.length();
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "notEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, USERNAME, "notEmpty");
 
         if (usernameLength < 6 || usernameLength > 32) {
-            errors.rejectValue("username", "size.userForm.username");
+            errors.rejectValue(USERNAME, "size.userForm.username");
         }
         if (this.userService.findByUsername(username) != null) {
-            errors.rejectValue("username", "duplicate.userForm.username");
+            errors.rejectValue(USERNAME, "duplicate.userForm.username");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
-            "notEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, PASS, "notEmpty");
         if (passLength < 8 || passLength > 32) {
-            errors.rejectValue("password", "size.userForm.password");
+            errors.rejectValue(PASS, "size.userForm.password");
         }
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            errors.rejectValue("passwordConfirm", "diff.userForm.passwordConfirm");
+            errors.rejectValue(PASS_CONFIRM, "diff.userForm.passwordConfirm");
         }
     }
 }

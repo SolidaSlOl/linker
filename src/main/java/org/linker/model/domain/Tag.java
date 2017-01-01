@@ -53,17 +53,26 @@ public class Tag extends NamedEntity {
     )
     private List<Link> links;
 
+    /**
+     * Default constructor.
+     */
+    public Tag() {
+        super();
+    }
+
+    /**
+     * Constructor for tag's name.
+     * @param name Name
+     */
+    public Tag(final String name) {
+        this.setName(name);
+    }
+
     private List<Link> getLinksInternal() {
         if (this.links == null) {
             this.links = new ArrayList<>();
         }
         return this.links;
-    }
-
-    public Tag() { }
-
-    public Tag(final String name) {
-        this.setName(name);
     }
 
     public List<Link> getLinks() {
@@ -72,13 +81,5 @@ public class Tag extends NamedEntity {
 
     public void addLink(final Link link) {
         this.links.add(link);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
     }
 }

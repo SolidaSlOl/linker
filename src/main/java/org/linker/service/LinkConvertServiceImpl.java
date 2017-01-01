@@ -41,29 +41,29 @@ public class LinkConvertServiceImpl implements LinkConvertService {
      * Example output:
      * 123456789 <=> pgK8p
      */
-    private static final String ALPHABET =
-        "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
+    private static final String ALPHABET = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
 
     /**
      * Scale of notation.
      */
-    private static final Integer BASE = ALPHABET.length();
+    private static final int BASE = ALPHABET.length();
 
     @Override
-    public String encode(Integer num) {
+    public String encode(final int numberParameter) {
         StringBuilder builder = new StringBuilder();
-        while (num > 0) {
-            builder.insert(0, ALPHABET.charAt(num % BASE));
-            num = num / BASE;
+        int number = numberParameter;
+        while (number > 0) {
+            builder.insert(0, ALPHABET.charAt(number % BASE));
+            number = number / BASE;
         }
         return builder.toString();
     }
 
     @Override
-    public int decode(final String str) {
-        Integer num = 0;
-        for (int i = 0; i < str.length(); i++) {
-            num = num * BASE + ALPHABET.indexOf(str.charAt(i));
+    public int decode(final String shorten) {
+        int num = 0;
+        for (int i = 0; i < shorten.length(); i++) {
+            num = num * BASE + ALPHABET.indexOf(shorten.charAt(i));
         }
         return num;
     }

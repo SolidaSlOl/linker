@@ -41,10 +41,17 @@ public class Role extends NamedEntity {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
+    /**
+     * Default constructor.
+     */
     public Role() {
-
+        super();
     }
 
+    /**
+     * Constructor for role's name.
+     * @param name Name
+     */
     public Role(final String name) {
         this.setName(name);
     }
